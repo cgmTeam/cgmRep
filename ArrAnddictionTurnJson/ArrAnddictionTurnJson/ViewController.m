@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import <UIKit/UIKit.h>
 @interface ViewController ()
 
 @end
@@ -18,6 +18,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    //[self DicTurnJson];
+    
+    [self ArrTurnJson];
+    
+}
+
+/**
+ *  数组转json
+ *
+ *  @return
+ */
+
+-(void)ArrTurnJson{
+    
+    NSArray *arr =@[@"1",@"2",@"3"];
+    NSData *jsdata =[NSJSONSerialization dataWithJSONObject:arr options:kNilOptions error:nil];
+    
+     NSString *jsonString = [[NSString alloc] initWithData:jsdata encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",jsonString);
+}
+
+/**
+ * 字典转json
+ */
+-(void)DicTurnJson{
     NSDictionary *dic1=@{@"key":@"demo",@"string":@"6666"};
     NSMutableDictionary *dic  = [[NSMutableDictionary alloc] initWithDictionary:dic1];
     
@@ -40,8 +65,10 @@
     else if (error != nil){
         NSLog(@"An error happened = %@", error);
     }
-    
+
 }
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
