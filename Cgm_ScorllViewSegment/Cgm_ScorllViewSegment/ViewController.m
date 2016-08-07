@@ -44,6 +44,8 @@
     baViewController *ba =[baViewController new];
     ba.title = @"英菇";
     
+    
+    //分段控制器，标题不自适应
     NSArray *subViewControllers = @[one,two,three,four,five,six,qi,ba ];
     
     CGM_ViewControllerSegment *cgm_ctrl=[[CGM_ViewControllerSegment alloc] initWithCtrltitle:subViewControllers];
