@@ -14,7 +14,7 @@
 @implementation GetUserTelNumber
 
 
-
+//读取用户通讯录
 +(NSMutableArray *)getUserTelNumber{
     
     NSMutableArray *PersonArr=[NSMutableArray new];
