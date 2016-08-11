@@ -42,6 +42,71 @@
     }
 }
 
++ (Boolean)isCharaterString:(NSString *)str
+{
+    NSCharacterSet *disallowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm"] invertedSet];
+    NSRange foundRange = [str rangeOfCharacterFromSet:disallowedCharacters];
+    if (foundRange.location == NSNotFound) {
+        NSLog(@"字母的集合");
+        return YES;
+    }
+    return NO;
+}
++ (Boolean)isNumberCharaterString:(NSString *)str
+{
+    NSCharacterSet *disallowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789QWERTYUIOPLKJHGFDSAZXCVBNMqwertyuioplkjhgfdsazxcvbnm"] invertedSet];
+    NSRange foundRange = [str rangeOfCharacterFromSet:disallowedCharacters];
+    if (foundRange.location == NSNotFound) {
+        return YES;
+    }
+    return NO;
+}
+
++ (Boolean)hasillegalString:(NSString *)str
+{
+    if ( str.length == 0 )  // 目前允许是空
+    {
+        return NO;
+    }
+    NSString *regex = @"^[a-zA-Z0-9_\u4e00-\u9fa5]+$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([predicate evaluateWithObject:str] == YES)
+    {
+        return  NO;
+    }
+    else
+    {
+        return YES;
+    }
+    
+    NSCharacterSet *disallowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"~!！￥@#$%^&*+?/="] invertedSet];
+    NSRange foundRange = [str rangeOfCharacterFromSet:disallowedCharacters];
+    
+    NSLog( @"%@", str );
+    
+    if (foundRange.location == NSNotFound)
+    {
+        return YES;
+    }
+    
+    return NO;
+}
+
++ (BOOL)verifyMobilePhone:(NSString*)phone
+{
+    NSString *regex = @"1[0-9]{10}";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([predicate evaluateWithObject:phone] == YES)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+
 #pragma mark 判断不包含特殊符号
 -(BOOL)isNumAndword{
     NSString *reges = @"^[A-Za-z0-9-.]+$";
@@ -67,7 +132,7 @@
 
 
 #pragma mark 判断是否是纯数字
-- (BOOL)isNumber {
+-(BOOL)isNumber {
     NSString *emailRegex = @"^[0-9]*$";
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:self];
@@ -263,6 +328,68 @@
     NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString* appVersion=[infoDictionary objectForKey:@"CFBundleShortVersionString"];
     return appVersion;
+}
+
++ (Boolean)haveNet
+{
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *children = [[[app valueForKeyPath:@"statusBar"] valueForKeyPath:@"foregroundView"] subviews];
+    int type = 0;
+    for (id child in children) {
+        if ([child isKindOfClass:[NSClassFromString(@"UIStatusBarDataNetworkItemView") class]]) {
+            type = [[child valueForKeyPath:@"dataNetworkType"] intValue];
+        }
+    }
+    return type;
+}
+
+
++ (NSAttributedString*)getAttributeFromFirstString:(NSString*)str1 secondString:(NSString*)str2{
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc]init];
+    NSAttributedString *attributed = [[NSAttributedString alloc]initWithString:str1 attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12],NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [att appendAttributedString:attributed];
+    NSAttributedString *attribute = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@",str2] attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:7],NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [att appendAttributedString:attribute];
+    return att;
+}
+
+
++ (NSAttributedString*)attributeFromFirstString:(NSString*)str1 secondString:(NSString*)str2 color1:(UIColor *)color1 color2:(UIColor *)color2
+{
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc]init];
+    NSAttributedString *attributed = [[NSAttributedString alloc]initWithString:str1 attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13],NSForegroundColorAttributeName:color1}];
+    [att appendAttributedString:attributed];
+    NSAttributedString *attribute = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@",str2] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13],NSForegroundColorAttributeName:color2}];
+    [att appendAttributedString:attribute];
+    return att;
+}
+
++ (NSAttributedString*)setAttrbute:(NSString *)string andAttribute:(NSString *)string2 Color1:(UIColor *)color1 Color2:(UIColor *)color2 Font1:(CGFloat)font1 Font2:(CGFloat)font2
+{
+    NSMutableAttributedString *att = [[NSMutableAttributedString alloc]init];
+    NSAttributedString *attributed = [[NSAttributedString alloc]initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font1],NSForegroundColorAttributeName:color1}];
+    [att appendAttributedString:attributed];
+    NSAttributedString *attribute = [[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@",string2] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font2],NSForegroundColorAttributeName:color2}];
+    
+    [att appendAttributedString:attribute];
+    return att;
+}
+
+
++ (BOOL)isNewFeature
+{
+    NSString *versionKey = @"CFBundleShortVersionString";
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *lastVersion = [defaults objectForKey:versionKey];
+    
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
+    if ([currentVersion isEqualToString:lastVersion]) {
+        return NO;
+    }else{
+        [defaults setObject:currentVersion forKey:versionKey];
+        [defaults synchronize];
+        return YES;
+    }
 }
 
 +(NSString*)getAppName

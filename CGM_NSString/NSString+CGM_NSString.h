@@ -40,6 +40,9 @@
  */
 - (BOOL)checkTel;
 
+/** 手机号正则匹配*/
++(BOOL)verifyMobilePhone:(NSString*)phone;
+
 /**
  *  清空字符串中的空白字符
  *
@@ -107,6 +110,9 @@
 // 弱密码判断
 - (BOOL)weakPswd;
 
+/** 是否为纯字母*/
++ (Boolean)isCharaterString:(NSString *)str;
+
 /**验证邮箱*/
 +(BOOL)isValidateEmail:(NSString *)email;
 /**验证密码*/
@@ -126,6 +132,12 @@
 /**验证字符串是否全部是中文*/
 +(BOOL)isValidateChinese:(NSString *)chineseName;
 
+/** 是否为数字字母组合*/
++ (Boolean)isNumberCharaterString:(NSString *)str;
+
+/** 有非法字符？*/
++ (Boolean)hasillegalString:(NSString *)str;
+
 /**获取AppVersion*/
 +(NSString*)getAppVersion;
 /**获取AppName*/
@@ -142,6 +154,20 @@
 
 /**获取当前时间*/
 + (NSString *)currentDate;
+
+/**是否有网*/
++ (Boolean)haveNet;
+
+/** 是否是第一次使用这个版本*/
++ (BOOL)isNewFeature;
+
+/** 富文本*/
++(NSAttributedString*)getAttributeFromFirstString:(NSString*)str1 secondString:(NSString*)str2;
+/** 富文本 字体1，字体2*/
++(NSAttributedString*)getAttributeFromFirstString:(NSString*)str1 secondString:(NSString*)str2 fontFront:(CGFloat)font1 fontNext:(CGFloat)font2;
++ (NSAttributedString*)attributeFromFirstString:(NSString*)str1 secondString:(NSString*)str2 color1:(UIColor *)color1 color2:(UIColor *)color2;
+/** 富文本 字体1，字体2,颜色1，颜色2*/
++ (NSAttributedString*)setAttrbute:(NSString *)string andAttribute:(NSString *)string2 Color1:(UIColor *)color1 Color2:(UIColor *)color2 Font1:(CGFloat)font1 Font2:(CGFloat)font2;
 
 /**去除前后空格*/
 + (NSString *)removeSpaceBeforeAndAfterWithString:(NSString *)str;
