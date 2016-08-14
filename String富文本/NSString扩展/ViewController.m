@@ -31,7 +31,7 @@
     CGFloat hei = [NSString autoHeightWithString:str Width:300 Font:14];
     NSLog(@"%lf",hei);
     
-    //富文本demo
+    //富文本demo1111
     
     
     //富文本
