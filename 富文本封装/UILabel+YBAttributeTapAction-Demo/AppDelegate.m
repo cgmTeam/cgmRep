@@ -1,9 +1,9 @@
 //
 //  AppDelegate.m
-//  gif动图
+//  UILabel+YBAttributeTapAction-Demo
 //
-//  Created by admin on 16/7/13.
-//  Copyright © 2016年 com.Managementsystem. All rights reserved.
+//  Created by LYB on 16/7/1.
+//  Copyright © 2016年 LYB. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -17,8 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    ///////
     return YES;
 }
 
